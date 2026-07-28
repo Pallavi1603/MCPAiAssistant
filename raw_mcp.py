@@ -45,4 +45,17 @@ if __name__=="__main__":
     asyncio.run(main())
         
             
-            
+
+
+
+# // "filesystem":{
+# //     "command":"npx",
+# //     "args":["-y","@modelcontextprotocal/server-filesystem",r"C:\Users\Pallavi\mcp-sandbox"],
+# //     "env":{}
+# // },
+
+# // "github":{
+# //     "command":"npx",
+# //     "args":["-y","@modelcontextprotocol/server-github"],
+# //      "GITHUB_PERSONAL_ACCESS_TOKEN": "https://github.com/Pallavi1603/AiCodeExplainer"
+# // }

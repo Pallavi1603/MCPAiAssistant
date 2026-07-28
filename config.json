@@ -1,12 +1,28 @@
-"filesystem":{
-    "command":"npx",
-    "args":["-y","@modelcontextprotocal/server-filesystem",r"C:\Users\Pallavi\mcp-sandbox"],
-    "env":{}
-},
 
-"github":{
-    "command":"npx",
-    "args":["-y","@modelcontextprotocol/server-github"],
-     "GITHUB_PERSONAL_ACCESS_TOKEN": "https://github.com/Pallavi1603/AiCodeExplainer"
+
+{
+  "servers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/tmp/mcp-sandbox"],
+      "env": {}
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "https://github.com/Pallavi1603/AiCodeExplainer"
+      }
+    },
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": {
+        "SLACK_BOT_TOKEN": "PUT_YOUR_TOKEN_HERE",
+        "SLACK_TEAM_ID": "PUT_YOUR_TEAM_ID_HERE"
+      }
+    }
+  },
+  "enabled": ["filesystem", "github"]
 }
 
