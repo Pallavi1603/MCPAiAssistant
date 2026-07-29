@@ -135,3 +135,60 @@ class MultiServerMCPClient:
                     if not function_call_steps:
                         print(f" \n gemini {interaction.output_text}\n")
                         break
+                    
+                    function_results=[]
+                    for step in function_call_steps:
+                        print(f"[calling tool:{step.name}({json.dumps(step.arguments)})]")
+                        
+                        try:
+                            output=await self.call_tool(step.name,step.arguments)
+                        except Exception as e:
+                            output=f"Error calling tool:{e}"
+                        function_results.append({
+                            "type":"function_result",
+                            "name":"step.name",
+                            "call_id":"step_id",
+                            "result":[{"type":"text","text":"output"}]
+                        })
+                    
+                    
+                    interaction = self.gemini.interactions.create(
+                    model=MODEL,
+                    previous_interaction_id=interaction.id,
+                    tools=tools,
+                    input=function_results,
+                )
+                last_interaction_id = interaction.id
+
+        async def cleanup(self):
+            await self.exit_stack.aclose()
+        
+    async def main():
+        if not os.environ_get("GEMINI_API_KEY"):
+            print("Set GEMINI_API_KEY first. Get a free key: https://aistudio.google.com/apikey")
+            sys.exit(1)
+            
+        with open (CONFIG_FILE) as f:
+            config=json.load(f)
+            
+        os.makedirs(r"C:\Users\Pallavi\demo",exist_ok=True)
+        
+        client=MultiServerMCPClient()
+        try:
+            print("Connecting to all MCP servers")
+            await client.connect_all(config)
+            if not client.sessions:
+                print("No servers connected. Check config.json and your tokens.")
+                return
+            await client.chat_loop()
+
+        except Exception:
+            traceback.print_exc()
+        finally:
+            await client,cleanup()
+            
+if __name__=="__main__":
+    asyncio.run(main())
+            
+            
+        
